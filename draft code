@@ -1,0 +1,37 @@
+
+
+// extraction from response - only gets questions answered!
+function extractFormResponseIDs() {
+  var formURL = SpreadsheetApp.getActiveSpreadsheet().getFormUrl();
+  var form = FormApp.openByUrl(formURL);
+  var latestResponse = form.getResponses()[0];
+  var itemResponses = latestResponse.getItemResponses();
+  for (var i = 0; i < (itemResponses.length - 1); i++) {
+    Logger.log(itemResponses[i].getItem().getId() + ': ' + itemResponses[i].getItem().getTitle());
+  };
+};
+
+/*// extraction from form itself
+function extractFormResponseIDs() {
+  var formURL = SpreadsheetApp.getActiveSpreadsheet().getFormUrl();
+  var form = FormApp.openByUrl(formURL);
+  var formItems = form.getItems(CHECKBOX+DATE+DATETIME+DURATION+GRID+LIST+MULITPLE_CHOICE+PARAGRAPH_TEXT+SCALE+TEXT+TIME);  // to follow up on this method, get all items then get type for each one and then use a case sort to organise them properly
+};
+*/
+
+function someoneElsesIDExtraction() {
+    
+  var formURL = SpreadsheetApp.getActiveSpreadsheet().getFormUrl();
+  var form = FormApp.openByUrl(formURL);
+  var textItems = form.getItems(FormApp.ItemType.TEXT);
+  settings.textItems = [];
+  for (var i = 0; i < textItems.length; i++) {
+    settings.textItems.push({
+      title: textItems[i].getTitle(),
+      id: textItems[i].getId()
+    });
+  }
+  
+  
+  
+};

@@ -6,7 +6,7 @@ function extractFormResponseIDs() {
   var form = FormApp.openByUrl(formURL);
   var latestResponse = form.getResponses()[0];
   var itemResponses = latestResponse.getItemResponses();
-  for (var i = 0; i < (itemResponses.length - 1); i++) {
+  for (var i = 0; i < (itemResponses.length); i++) {
     Logger.log(itemResponses[i].getItem().getId() + ': ' + itemResponses[i].getItem().getTitle());
   };
 };

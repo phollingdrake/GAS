@@ -34,11 +34,11 @@ function checkFolderForFormWithReply(folder) {
     var formURL = spreadSheet.getFormUrl();
     var form = FormApp.openByUrl(formURL);
     var formResponses = form.getResponses();
-    var howManyResponses = formResponses.length;
+    var responseCount = formResponses.length;
     
-    Logger.log('there have been ' + howManyResponses + ' response(s) submitted to this form.');
+    Logger.log('there have been ' + responseCount + ' response(s) submitted to this form.');
     var folderName = folder.getName(); 
-    if (howManyResponses == 0) {
+    if (responseCount == 0) {
      return
     }
     else {

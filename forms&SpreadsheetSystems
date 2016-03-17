@@ -8,3 +8,49 @@ function fetchLatestFormResponse() {
   var formResponse = allResponses[responseCount-1];  
   return formResponse;
 };
+
+
+// the following two functions work together to check a givenFolder for any folder containing a spreadssheet which contains a form response
+function folderFetcher() {
+  var givenFolderID = 'FOLDER'S DRIVE ID GOES HERE';
+  var givenFolder = DriveApp.getFolderById(givenFolderID);
+  var folders = givenFolder.getFolders();
+    
+  while (folders.hasNext()) {
+   var folder = folders.next();
+   checkFolderForFormWithReply(folder);
+  }
+}
+
+function checkFolderForFormWithReply(folder) { 
+  
+  var notificationEmail = 'EMAIL ADDRESS FOR NOTIFICATIONS HERE';
+  var spreadSheetsFromFolder = folder.getFilesByType(MimeType.GOOGLE_SHEETS);
+  
+  while (spreadSheetsFromFolder.hasNext()) {
+    var spreadSheetFile = spreadSheetsFromFolder.next();
+    var spreadSheet = SpreadsheetApp.open(spreadSheetFile);
+    var spreadSheetURL = spreadSheet.getUrl();
+    var formURL = spreadSheet.getFormUrl();
+    var form = FormApp.openByUrl(formURL);
+    var formResponses = form.getResponses();
+    var howManyResponses = formResponses.length;
+    
+    Logger.log('there have been ' + howManyResponses + ' response(s) submitted to this form.');
+    var folderName = folder.getName(); 
+    if (howManyResponses == 0) {
+     return
+    }
+    else {
+      MailApp.sendEmail({
+        to:      notificationEmail,
+        subject: 'Urgent: Recieved booking confirmation of ' + folderName + '. Send client confrimation ASAP',
+        body:    "A client has confirmed a booking for which the spreadsheet has not been initialised. Please click the link below and choose 'Send Confirmation PDFs' from the Deaf Access menu to produce confirmation documents for the client and yourself.\n\n"
+                 + spreadSheetURL
+      });   
+    };
+    
+  };
+      
+  
+};

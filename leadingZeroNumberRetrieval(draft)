@@ -1,0 +1,25 @@
+function leadingZeroNumberRetrieval(columnNoArray, selectedRow, sheet) {
+
+  var i = 0;
+  while (i < columnNoArray.length) {
+  //  var value = fetch formResponse value for columnNoArray[i]
+  var cell = sheet.getRange(selectedRow, columnNoArray[i]);
+  cell.setNumberFormat('@STRING@'); //formats cells to plain text
+  cell.setValue(value);  //sets values into cells
+  i++
+  };
+  
+  return;
+};
+
+//this is currently inefficiently coded in that it calls and sets each individual cell
+
+/*
+** Tip for reducing execution times:
+**
+** Also, try to minimize the amount of calls to google services. For example, 
+** if you want to change a range of cells in the spreadsheets, don't read each one, mutate it and store it back. 
+** Instead read the whole range (using Range.getValues()) into memory, mutate it and store all of it at once (using Range.setValues()).
+**
+** This should save you a lot of execution time.
+*/

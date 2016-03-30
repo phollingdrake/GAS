@@ -2,7 +2,7 @@ function leadingZeroNumberRetrieval(columnNoArray, selectedRow, sheet) {
 
   var i = 0;
   while (i < columnNoArray.length) {
-  //  var value = fetch formResponse value for columnNoArray[i]
+  //  var value = formResponseValueFetch(columnNoArray[i]);
   var cell = sheet.getRange(selectedRow, columnNoArray[i]);
   cell.setNumberFormat('@STRING@'); //formats cells to plain text
   cell.setValue(value);  //sets values into cells
@@ -10,6 +10,26 @@ function leadingZeroNumberRetrieval(columnNoArray, selectedRow, sheet) {
   };
   
   return;
+};
+
+function formResponseValueFetch(colNo) {
+ 
+ /*
+ ** Ways to fetch back a response:
+ ** - responseID
+ ** - timestamp
+ **
+ ** But... how to determine which item response goes with which column?
+ ** - fetching form and counting in the number of different item types that output to the sheet (i.e. excluding titles and images)
+ **   then comparing this with the number of columns, plus 1 for the automatic timestamp (but would this screw up if items in form
+ **   had been deleted leaving extra columns in the SS, or if SS columns were re-arranged by the user?)
+ ** - comparing numbers in sheet with numbers in response for highest similarity (problem with similar incremental numbers -
+ **   i.e. people inputting a tel. and a fax.)
+ ** - getting input of a 2d array and having the feedin program give info on itemID
+ */
+ 
+
+ return value;
 };
 
 //this is currently inefficiently coded in that it calls and sets each individual cell

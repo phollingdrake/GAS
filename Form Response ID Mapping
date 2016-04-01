@@ -1,0 +1,18 @@
+/*
+** This function is used to ascertain the IDs of item responses in a form.
+** To use this, respond to a form, ensuring to fill out each field, even if it is not mandatory.
+** then open the spreadsheet and run this function - it will output to the log.
+*/
+
+
+function formResponseMapping() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet();
+  var form = FormApp.openByUrl(ss.getFormUrl());
+  var formResponses = form.getResponses();
+  var latestFormResponse = formResponses[formResponses.length - 1];
+  var latestResponses = latestFormResponse.getItemResponses();
+  for (var i = 0; i < latestResponses.length; i++) {
+    Logger.log('\n response item ID: ' + latestResponses[i].getItem().getId() + ' | ' + 'question: ' + latestResponses[i].getItem().getTitle() + " user's response: " + latestResponses[i].getResponse());
+  };
+};

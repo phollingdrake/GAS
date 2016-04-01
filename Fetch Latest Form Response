@@ -1,0 +1,10 @@
+// Fetches latest form response submitted to the active spreadsheet - intended to be run from the spreadsheet onFormSubmit
+
+function fetchLatestFormResponse() {
+  var formURL = SpreadsheetApp.getActiveSpreadsheet().getFormUrl();
+  var form = FormApp.openByUrl(formURL);
+  var allResponses = form.getResponses();
+  var responseCount = allResponses.length;
+  var formResponse = allResponses[responseCount-1];  
+  return formResponse;
+};

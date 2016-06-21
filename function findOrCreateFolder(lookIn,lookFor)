@@ -1,0 +1,13 @@
+//looks in a given folder for another folder with a given name. Returns the first folder found - to be used with folders containing uniquely named folders.
+
+
+function findOrCreateFolder(lookIn,lookFor) {
+  var foundFolders = lookIn.getFoldersByName(lookFor);
+  if (foundFolders.hasNext() == false) {
+    var requiredFolder = lookIn.createFolder(lookFor);
+  }
+  else {
+    var requiredFolder = foundFolders.next();
+  };
+  return requiredFolder;
+};

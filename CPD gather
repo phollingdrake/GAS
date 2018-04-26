@@ -1,0 +1,120 @@
+function myFunction() {
+
+ 
+  var staffArray = getStaffArray();
+  
+  var currentYearFolder = getCurrentYearFolder();
+  
+  var assignmentFoldersArray = getAssignmentFolders();
+  
+  var allAssignmentDocs = getallAssignmentDocs(assignmentFoldersArray);
+  
+  Logger.log('all assignment docs array size: ' + allAssignmentDocs.length)
+  
+  var staffNo = 0;
+  
+  var docIndex = 0;
+  
+  var staffMemFolder = currentYearFolder; //bad practice - just to initialise variable as folder type
+  
+  for (staffNo = 0; staffNo < staffArray.length; staffNo++) { 
+    
+    if (currentYearFolder.getFoldersByName(staffArray[staffNo]).hasNext()){
+      staffMemFolder = currentYearFolder.getFoldersByName(staffArray[staffNo]).next();
+    }
+    else {
+      staffMemFolder = currentYearFolder.createFolder(staffArray[staffNo]); 
+    };
+    
+    for (docIndex = 0; docIndex < allAssignmentDocs.length; docIndex++) {
+      if (allAssignmentDocs[docIndex].getName().indexOf(staffArray[staffNo]) != -1 && allAssignmentDocs[docIndex].getOwner().getName() == 'Deaf Access') {
+        
+        
+        // insert here a thing to compare the selected file against all files in the previous year's folder.
+        // If it's not in last years' and it's dated withing the last 16 months, then add to the allAssignmentDocs
+        
+        
+        
+        staffMemFolder.addFile(allAssignmentDocs[docIndex]);
+      };
+      Logger.log('doc count loop is: ' + docIndex);
+    };
+    Logger.log('Staff no loop count is: ' + staffNo);
+    
+  };
+ 
+  return;
+}
+
+
+function getallAssignmentDocs(assignmentFoldersArray){
+
+  var allAssignmentDocs = [];
+  var i = 0;
+  var iFolderIterator = '';
+  
+  for (i = 0; i < assignmentFoldersArray.length; i++) { 
+    iFolderIterator = assignmentFoldersArray[i].getFilesByType(MimeType.GOOGLE_DOCS);
+    while (iFolderIterator.hasNext()) {
+      allAssignmentDocs.push(iFolderIterator.next());
+    };
+  };
+    return allAssignmentDocs;
+}
+
+
+
+
+
+function getAssignmentFolders(){
+  var assignmentFoldersArray = [];
+  var classroomCPDsubfolderIterator = DriveApp.getFolderById('0B7L0ABICNjExfl9FUUJQVnY5RzdGWkZ1cWRHeVpuY1FCOEZIcjdsUnJZbnNVdlVpcFJyZVE').getFolders();  
+  var folderholder = DriveApp.getFolderById('0B7L0ABICNjExfl9FUUJQVnY5RzdGWkZ1cWRHeVpuY1FCOEZIcjdsUnJZbnNVdlVpcFJyZVE'); //bad practice for initialising this 
+  do {
+    folderholder = classroomCPDsubfolderIterator.next();
+    switch(folderholder.getId()) {
+     case '15bL17zPZTHpLkiVKlsKYj7wzg1Xdn2ac': //automated audit gather
+        break;
+     case '0B7L0ABICNjExfmJ2REUyTVNHNFFQdVlDbTh1Z1pHeVRzNnNWVklOTlFKYTZua2Fab3JKa2c': //templates
+        break;
+     default:
+        assignmentFoldersArray.push(folderholder);
+    }    
+  } while (classroomCPDsubfolderIterator.hasNext());
+    
+  return assignmentFoldersArray;
+}
+
+
+
+function getStaffArray(){
+ 
+  var staffListSheet = SpreadsheetApp.openById('1L3YYWwDFGSljOkMbKYFfQwDfZK5-8hSJeJik_3IlvGI');
+  
+  var totalStaff = staffListSheet.getLastRow();
+  
+  var staffA1Notation = "A1:A" + parseInt(totalStaff);
+  
+  var staffRange = staffListSheet.getRange(staffA1Notation);
+
+  var staffArray = staffRange.getDisplayValues();
+  
+  return staffArray;
+  
+}
+
+
+function getCurrentYearFolder(){
+ 
+  var cpdEvidenceFolder = DriveApp.getFolderById('1ivor16dZLtkEjHft1Dv2mPzBF5FqBlPB');
+  
+  if (cpdEvidenceFolder.getFoldersByName((new Date()).getFullYear()).hasNext()){
+    var currentYearFolder = cpdEvidenceFolder.getFoldersByName((new Date()).getFullYear()).next();
+  }
+  else {
+    var currentYearFolder = cpdEvidenceFolder.createFolder((new Date()).getFullYear()); 
+  }
+  
+  return currentYearFolder;
+  
+}

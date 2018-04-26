@@ -68,14 +68,14 @@ function getallAssignmentDocs(assignmentFoldersArray){
 
 function getAssignmentFolders(){
   var assignmentFoldersArray = [];
-  var classroomCPDsubfolderIterator = DriveApp.getFolderById('0B7L0ABICNjExfl9FUUJQVnY5RzdGWkZ1cWRHeVpuY1FCOEZIcjdsUnJZbnNVdlVpcFJyZVE').getFolders();  
-  var folderholder = DriveApp.getFolderById('0B7L0ABICNjExfl9FUUJQVnY5RzdGWkZ1cWRHeVpuY1FCOEZIcjdsUnJZbnNVdlVpcFJyZVE'); //bad practice for initialising this 
+  var classroomCPDsubfolderIterator = DriveApp.getFolderById('').getFolders();  
+  var folderholder = DriveApp.getFolderById(''); //bad practice for initialising this 
   do {
     folderholder = classroomCPDsubfolderIterator.next();
     switch(folderholder.getId()) {
-     case '15bL17zPZTHpLkiVKlsKYj7wzg1Xdn2ac': //automated audit gather
-        break;
-     case '0B7L0ABICNjExfmJ2REUyTVNHNFFQdVlDbTh1Z1pHeVRzNnNWVklOTlFKYTZua2Fab3JKa2c': //templates
+     case '': //automated audit gather     
+        break;                                  //first two switch cases are for folders to exclude from search.
+     case '': //templates
         break;
      default:
         assignmentFoldersArray.push(folderholder);
@@ -89,7 +89,7 @@ function getAssignmentFolders(){
 
 function getStaffArray(){
  
-  var staffListSheet = SpreadsheetApp.openById('1L3YYWwDFGSljOkMbKYFfQwDfZK5-8hSJeJik_3IlvGI');
+  var staffListSheet = SpreadsheetApp.openById('');
   
   var totalStaff = staffListSheet.getLastRow();
   
@@ -106,7 +106,7 @@ function getStaffArray(){
 
 function getCurrentYearFolder(){
  
-  var cpdEvidenceFolder = DriveApp.getFolderById('1ivor16dZLtkEjHft1Dv2mPzBF5FqBlPB');
+  var cpdEvidenceFolder = DriveApp.getFolderById('');
   
   if (cpdEvidenceFolder.getFoldersByName((new Date()).getFullYear()).hasNext()){
     var currentYearFolder = cpdEvidenceFolder.getFoldersByName((new Date()).getFullYear()).next();
